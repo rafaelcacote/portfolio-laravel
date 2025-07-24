@@ -120,10 +120,6 @@ Contribuições são bem-vindas! Sinta-se à vontade para abrir issues ou enviar
 
 - RafaelCacote(https://github.com/rafaelcacote)
 
-## 📄 Licença
-
-Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
-
 ---
 
 Sinta-se à vontade para contribuir, sugerir melhorias ou reportar problemas!

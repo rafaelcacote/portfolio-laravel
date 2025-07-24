@@ -4,62 +4,106 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\BlogPost;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
+
 
 class BlogPostController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $posts = BlogPost::orderByDesc('published_at')->paginate(15);
+        return view('admin.blog.index', compact('posts'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        return view('admin.blog.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'slug' => 'nullable|string|max:255|unique:blog_posts,slug',
+            'excerpt' => 'nullable|string|max:500',
+            'content' => 'required|string',
+            'featured_image' => 'nullable|image',
+            'tags' => 'nullable|string',
+            'status' => 'required|in:draft,published',
+            'published_at' => 'nullable|date',
+        ]);
+
+        $slug = $validated['slug'] ?? Str::slug($validated['title']);
+        if (BlogPost::where('slug', $slug)->exists()) {
+            return back()->withErrors(['slug' => 'Slug já existe.'])->withInput();
+        }
+
+        $data = $validated;
+        $data['slug'] = $slug;
+        $data['user_id'] = auth()->id();
+        $data['tags'] = $request->tags ? array_map('trim', explode(',', $request->tags)) : [];
+
+        if ($request->hasFile('featured_image')) {
+            $data['featured_image'] = $request->file('featured_image')->store('blog', 'public');
+        }
+
+        $post = BlogPost::create($data);
+        return redirect()->route('admin.blog.index')->with('success', 'Post criado com sucesso!');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function show(BlogPost $blog)
     {
-        //
+        $post = $blog;
+        return view('admin.blog.show', compact('post'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function edit(BlogPost $blog)
     {
-        //
+        $post = $blog;
+        return view('admin.blog.edit', compact('post'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(Request $request, BlogPost $blog)
     {
-        //
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'slug' => 'nullable|string|max:255|unique:blog_posts,slug,' . $blog->id,
+            'excerpt' => 'nullable|string|max:500',
+            'content' => 'required|string',
+            'featured_image' => 'nullable|image',
+            'tags' => 'nullable|string',
+            'status' => 'required|in:draft,published',
+            'published_at' => 'nullable|date',
+        ]);
+
+        $slug = $validated['slug'] ?? Str::slug($validated['title']);
+        if (BlogPost::where('slug', $slug)->where('id', '!=', $blog->id)->exists()) {
+            return back()->withErrors(['slug' => 'Slug já existe.'])->withInput();
+        }
+
+        $data = $validated;
+        $data['slug'] = $slug;
+        $data['tags'] = $request->tags ? array_map('trim', explode(',', $request->tags)) : [];
+
+        if ($request->hasFile('featured_image')) {
+            if ($blog->featured_image) {
+                Storage::disk('public')->delete($blog->featured_image);
+            }
+            $data['featured_image'] = $request->file('featured_image')->store('blog', 'public');
+        }
+
+        $blog->update($data);
+        return redirect()->route('admin.blog.index')->with('success', 'Post atualizado com sucesso!');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy(BlogPost $blog)
     {
-        //
+        if ($blog->featured_image) {
+            Storage::disk('public')->delete($blog->featured_image);
+        }
+        $blog->delete();
+        return redirect()->route('admin.blog.index')->with('success', 'Post excluído com sucesso!');
     }
 }
