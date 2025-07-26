@@ -11,7 +11,7 @@
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div class="fade-in">
                 <h1 class="heading-xl text-white mb-6">
-                    Olá, eu sou <span class="text-yellow-300">Rafael Caçote</span>
+                    Oláaaa, eu sou <span class="text-yellow-300">Rafael Caçote</span>
                 </h1>
                 <p class="text-lead text-blue-100 mb-8">
                     Desenvolvedor Full Stack especializado em criar experiências digitais excepcionais. 
