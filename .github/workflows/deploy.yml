@@ -19,28 +19,35 @@ jobs:
         env:
           DEPLOY_KEY: ${{ secrets.HOSTINGER_SSH_KEY }}
 
-      # Etapa 1: Deploy do Laravel (exceto public) para a raiz do domínio
+      # Deploy do Laravel (exceto public) para a raiz do domínio
       - name: Deploy Laravel project (exceto public) para Hostinger
         run: |
           rsync -avz --exclude 'public/' --exclude '.git/' --exclude '.github/' \
             -e "ssh -o StrictHostKeyChecking=no -p 65002 -i /tmp/deploy_key" \
             ./ u855546018@147.93.37.133:/home/u855546018/domains/cassote.com/
 
-      # Etapa 2: Deploy do conteúdo da pasta public para public_html (sem --delete)
-      - name: Deploy public/ para public_html (NÃO apaga arquivos extras!)
+      # Deploy do conteúdo da pasta public para public_html (sem --delete!)
+      - name: Deploy public/ para public_html
         run: |
           rsync -avz \
             -e "ssh -o StrictHostKeyChecking=no -p 65002 -i /tmp/deploy_key" \
             ./public/ u855546018@147.93.37.133:/home/u855546018/domains/cassote.com/public_html/
 
-      # Etapa 3: Deploy do public_path.php para a raiz (caso ainda não tenha na pasta do projeto)
+      # Deploy do public_path.php para a raiz
       - name: Deploy custom public_path.php
         run: |
           rsync -avz \
             -e "ssh -o StrictHostKeyChecking=no -p 65002 -i /tmp/deploy_key" \
             ./public_path.php u855546018@147.93.37.133:/home/u855546018/domains/cassote.com/public_path.php
 
-      # Etapa 4: Baixar Composer 2 no servidor
+      # Deploy da pasta build diretamente para public_html/build (caso necessário)
+      - name: Deploy build/ para public_html/build
+        run: |
+          rsync -avz \
+            -e "ssh -o StrictHostKeyChecking=no -p 65002 -i /tmp/deploy_key" \
+            ./public/build/ u855546018@147.93.37.133:/home/u855546018/domains/cassote.com/public_html/build/
+
+      # Baixar Composer 2 no servidor
       - name: Download Composer 2
         run: |
           ssh -o StrictHostKeyChecking=no -p 65002 -i /tmp/deploy_key u855546018@147.93.37.133 '
@@ -48,7 +55,7 @@ jobs:
             php -r "copy(\"https://getcomposer.org/composer-2.phar\", \"composer.phar\");"
           '
 
-      # Etapa 5: Comandos pós-deploy usando Composer 2
+      # Comandos pós-deploy
       - name: Run SSH commands on Hostinger (Composer 2)
         run: |
           ssh -o StrictHostKeyChecking=no -p 65002 -i /tmp/deploy_key u855546018@147.93.37.133 '
