@@ -9,6 +9,9 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\ProjectController as AdminProjectController;
 use App\Http\Controllers\Admin\BlogPostController as AdminBlogPostController;
 use App\Http\Controllers\Admin\ContactMessageController as AdminContactMessageController;
+use App\Http\Controllers\Admin\BlogController as AdminBlogController;
+use App\Http\Controllers\Admin\MessageController as AdminMessageController;
+use App\Http\Controllers\Admin\SettingsController as AdminSettingsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -47,18 +50,34 @@ Route::get('/dashboard', function () {
 
 // Área administrativa (com autenticação)
 Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
+    // Dashboard
     Route::get('/', [AdminController::class, 'dashboard'])->name('dashboard');
-    
+    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard.alt'); // Usar outro nome se necessário
+
     // Projetos
     Route::resource('projects', AdminProjectController::class);
-    
+
     // Posts do Blog
     Route::resource('blog-posts', AdminBlogPostController::class);
-    
+
     // Mensagens de Contato
     Route::resource('contact-messages', AdminContactMessageController::class)->only(['index', 'show', 'destroy']);
     Route::patch('contact-messages/{contactMessage}/mark-read', [AdminContactMessageController::class, 'markAsRead'])->name('contact-messages.mark-read');
     Route::patch('contact-messages/{contactMessage}/mark-replied', [AdminContactMessageController::class, 'markAsReplied'])->name('contact-messages.mark-replied');
+
+    // Blog Management (caso precise)
+    Route::resource('blog', AdminBlogController::class);
+
+    // Messages Management (caso precise)
+    Route::get('/messages', [AdminMessageController::class, 'index'])->name('messages.index');
+    Route::get('/messages/{message}', [AdminMessageController::class, 'show'])->name('messages.show');
+    Route::patch('/messages/{message}/read', [AdminMessageController::class, 'markAsRead'])->name('messages.read');
+    Route::patch('/messages/{message}/reply', [AdminMessageController::class, 'markAsReplied'])->name('messages.reply');
+    Route::delete('/messages/{message}', [AdminMessageController::class, 'destroy'])->name('messages.destroy');
+
+    // Settings
+    Route::get('/settings', [AdminSettingsController::class, 'index'])->name('settings');
+    Route::post('/settings', [AdminSettingsController::class, 'update'])->name('settings.update');
 });
 
 // Perfil do usuário
@@ -69,25 +88,3 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
-
-// Admin Routes (Protected by auth middleware)
-Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
-    Route::get('/dashboard', [App\Http\Controllers\Admin\AdminController::class, 'dashboard'])->name('dashboard');
-    
-    // Projects Management
-    Route::resource('projects', App\Http\Controllers\Admin\ProjectController::class);
-    
-    // Blog Management
-    Route::resource('blog', App\Http\Controllers\Admin\BlogController::class);
-    
-    // Messages Management
-    Route::get('/messages', [App\Http\Controllers\Admin\MessageController::class, 'index'])->name('messages.index');
-    Route::get('/messages/{message}', [App\Http\Controllers\Admin\MessageController::class, 'show'])->name('messages.show');
-    Route::patch('/messages/{message}/read', [App\Http\Controllers\Admin\MessageController::class, 'markAsRead'])->name('messages.read');
-    Route::patch('/messages/{message}/reply', [App\Http\Controllers\Admin\MessageController::class, 'markAsReplied'])->name('messages.reply');
-    Route::delete('/messages/{message}', [App\Http\Controllers\Admin\MessageController::class, 'destroy'])->name('messages.destroy');
-    
-    // Settings
-    Route::get('/settings', [App\Http\Controllers\Admin\SettingsController::class, 'index'])->name('settings');
-    Route::post('/settings', [App\Http\Controllers\Admin\SettingsController::class, 'update'])->name('settings.update');
-});
