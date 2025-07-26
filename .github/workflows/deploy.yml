@@ -1,4 +1,4 @@
-name: Deploy Laravel to Hostinger
+name: Deploy Laravel + Vite to Hostinger
 
 on:
   push:
@@ -11,6 +11,12 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: Instalar dependências do Node
+        run: npm ci
+
+      - name: Gerar build front-end
+        run: npm run build
 
       - name: Write SSH key to file
         run: |
@@ -40,7 +46,7 @@ jobs:
             -e "ssh -o StrictHostKeyChecking=no -p 65002 -i /tmp/deploy_key" \
             ./public_path.php u855546018@147.93.37.133:/home/u855546018/domains/cassote.com/public_path.php
 
-      # Deploy da pasta build diretamente para public_html/build (caso necessário)
+      # Deploy da pasta build diretamente para public_html/build (agora ela existe pois foi gerada pelo Vite)
       - name: Deploy build/ para public_html/build
         run: |
           rsync -avz \
@@ -55,8 +61,8 @@ jobs:
             php -r "copy(\"https://getcomposer.org/composer-2.phar\", \"composer.phar\");"
           '
 
-      # Comandos pós-deploy
-      - name: Run SSH commands on Hostinger (Composer 2)
+      # Comandos pós-deploy no servidor
+      - name: Rodar comandos pós-deploy
         run: |
           ssh -o StrictHostKeyChecking=no -p 65002 -i /tmp/deploy_key u855546018@147.93.37.133 '
             cd /home/u855546018/domains/cassote.com/ &&
