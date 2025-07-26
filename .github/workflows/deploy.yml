@@ -1,0 +1,45 @@
+name: Deploy Laravel to Hostinger
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Write SSH key to file
+        run: |
+          echo "$DEPLOY_KEY" > /tmp/deploy_key
+          chmod 600 /tmp/deploy_key
+        env:
+          DEPLOY_KEY: ${{ secrets.HOSTINGER_SSH_KEY }}
+
+      # Etapa 1: Envia o projeto Laravel (exceto a pasta public) para a raiz do domínio
+      - name: Deploy Laravel project (exceto public) para Hostinger
+        run: |
+          rsync -avz --exclude 'public/' --exclude '.git/' --exclude '.github/' \
+            -e "ssh -o StrictHostKeyChecking=no -p 65002 -i /tmp/deploy_key" \
+            ./ u855546018@147.93.37.133:/home/u855546018/domains/cassote.com/
+
+      # Etapa 2: Envia o conteúdo de public/ para public_html
+      - name: Deploy public/ para public_html
+        run: |
+          rsync -avz --delete \
+            -e "ssh -o StrictHostKeyChecking=no -p 65002 -i /tmp/deploy_key" \
+            ./public/ u855546018@147.93.37.133:/home/u855546018/domains/cassote.com/public_html/
+
+      # Comandos pós-deploy via SSH
+      - name: Run SSH commands on Hostinger
+        run: |
+          ssh -o StrictHostKeyChecking=no -p 65002 -i /tmp/deploy_key u855546018@147.93.37.133 '
+            cd /home/u855546018/domains/cassote.com/ &&
+            composer install --no-interaction --prefer-dist --optimize-autoloader &&
+            php artisan config:cache &&
+            php artisan route:cache
+            # php artisan migrate --force
+          '
