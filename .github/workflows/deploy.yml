@@ -33,12 +33,12 @@ jobs:
             -e "ssh -o StrictHostKeyChecking=no -p 65002 -i /tmp/deploy_key" \
             ./public/ u855546018@147.93.37.133:/home/u855546018/domains/cassote.com/public_html/
 
-      # Etapa 3: Baixa Composer 2 para o servidor
+      # Etapa 3: Baixar Composer 2 no servidor
       - name: Download Composer 2
         run: |
           ssh -o StrictHostKeyChecking=no -p 65002 -i /tmp/deploy_key u855546018@147.93.37.133 '
             cd /home/u855546018/domains/cassote.com/ &&
-            php -r "copy('https://getcomposer.org/composer-2.phar', 'composer.phar');"
+            php -r "copy(\"https://getcomposer.org/composer-2.phar\", \"composer.phar\");"
           '
 
       # Etapa 4: Comandos pós-deploy usando Composer 2
