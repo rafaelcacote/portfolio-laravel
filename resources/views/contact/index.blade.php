@@ -282,10 +282,10 @@
                             <span>Segunda a Sexta:</span>
                             <span>9h às 18h</span>
                         </li>
-                        <!-- <li class="flex justify-between">
+                        <li class="flex justify-between">
                             <span>Sábado:</span>
-                            <span>9h às 14h</span>
-                        </li> -->
+                            <span>Fechado</span>
+                        </li>
                         <li class="flex justify-between">
                             <span>Domingo:</span>
                             <span>Fechado</span>

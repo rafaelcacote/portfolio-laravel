@@ -39,10 +39,10 @@
                         <div class="text-2xl font-bold text-yellow-300">{{ $stats['years_experience'] }}+</div>
                         <div class="text-sm text-blue-100">Anos de Experiência</div>
                     </div>
-                    <div class="text-center">
+                    <!-- <div class="text-center">
                         <div class="text-2xl font-bold text-yellow-300">{{ $stats['blog_posts'] }}+</div>
                         <div class="text-sm text-blue-100">Artigos Publicados</div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
             

@@ -32,7 +32,7 @@
                         <div class="w-8 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
                             <span class="text-white font-bold text-sm">P</span>
                         </div>
-                        <span class="font-bold text-xl text-gray-900">Portfolio</span>
+                        <span class="font-bold text-xl text-gray-900">Portfólio Profissional</span>
                     </a>
                 </div>
                 
@@ -50,9 +50,9 @@
                     <a href="{{ route('portfolio.index') }}" class="nav-link {{ request()->routeIs('portfolio.*') ? 'active' : '' }}">
                         Portfolio
                     </a>
-                    <a href="{{ route('blog.index') }}" class="nav-link {{ request()->routeIs('blog.*') ? 'active' : '' }}">
+                    <!-- <a href="{{ route('blog.index') }}" class="nav-link {{ request()->routeIs('blog.*') ? 'active' : '' }}">
                         Blog
-                    </a>
+                    </a> -->
                     <a href="{{ route('contact.index') }}" class="nav-link {{ request()->routeIs('contact.*') ? 'active' : '' }}">
                         Contato
                     </a>
@@ -154,7 +154,7 @@
                         <li><a href="{{ route('about') }}" class="footer-link">Sobre</a></li>
                         <li><a href="{{ route('services') }}" class="footer-link">Serviços</a></li>
                         <li><a href="{{ route('portfolio.index') }}" class="footer-link">Portfolio</a></li>
-                        <li><a href="{{ route('blog.index') }}" class="footer-link">Blog</a></li>
+                        <!-- <li><a href="{{ route('blog.index') }}" class="footer-link">Blog</a></li> -->
                         <li><a href="{{ route('contact.index') }}" class="footer-link">Contato</a></li>
                     </ul>
                 </div>

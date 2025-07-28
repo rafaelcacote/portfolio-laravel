@@ -60,7 +60,7 @@
                     </div>
                     
                     <!-- Blog -->
-                    <div class="nav-group">
+                    <!-- <div class="nav-group">
                         <div class="nav-group-header">
                             <i class="fas fa-newspaper w-5 h-5"></i>
                             <span>Blog</span>
@@ -77,7 +77,7 @@
                                 <span>Novo Post</span>
                             </a>
                         </div>
-                    </div>
+                    </div> -->
                     
                     <!-- Messages -->
                     <a href="{{ route('admin.messages.index') }}" 

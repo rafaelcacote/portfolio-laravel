@@ -1,5 +1,5 @@
 <?php
-require __DIR__.'/../public_path.php';
+
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Http\Request;
 
