@@ -78,37 +78,27 @@
                     $experiences = [
                         [
                             'period' => '2022 - Presente',
-                            'position' => 'Desenvolvedor Full Stack Sênior',
-                            'company' => 'TechCorp Solutions',
+                            'position' => 'Desenvolvedor Full Stack Pleno',
+                            'company' => 'Prefeitura Municipal de Manaus',
                             'description' => 'Liderança técnica em projetos de grande escala, desenvolvimento de arquiteturas robustas e mentoria de desenvolvedores juniores.',
                             'achievements' => [
-                                'Reduziu tempo de carregamento das aplicações em 40%',
+                                'Desenvolveu mais de 8 projetos web completos',
                                 'Implementou sistema de CI/CD que aumentou a produtividade em 60%',
-                                'Liderou equipe de 5 desenvolvedores em projeto crítico'
+                                'Otimizou performance de aplicações'
                             ]
                         ],
                         [
-                            'period' => '2020 - 2022',
-                            'position' => 'Desenvolvedor Full Stack',
-                            'company' => 'Digital Innovations',
-                            'description' => 'Desenvolvimento de aplicações web complexas utilizando Laravel, React e Node.js para clientes de diversos segmentos.',
+                            'period' => '2018 - 2022',
+                            'position' => 'Desenvolvedor de Sistemas',
+                            'company' => 'Hospital Beneficente Portugues',
+                            'description' => 'Desenvolvimento de aplicações web personalizadas utilizando Laravel, com foco na automação de processos hospitalares. Transformamos operações manuais ou baseadas em planilhas em sistemas eficientes, agilizando fluxos de trabalho nas áreas financeira, farmacêutica e administrativa, garantindo maior precisão e produtividade.',
                             'achievements' => [
-                                'Desenvolveu mais de 15 projetos web completos',
+                                'Desenvolveu mais de 9 projetos web completos',
                                 'Implementou integrações com APIs de terceiros',
                                 'Otimizou performance de aplicações legadas'
                             ]
                         ],
-                        [
-                            'period' => '2019 - 2020',
-                            'position' => 'Desenvolvedor Frontend',
-                            'company' => 'StartupTech',
-                            'description' => 'Criação de interfaces modernas e responsivas, foco em experiência do usuário e otimização de performance.',
-                            'achievements' => [
-                                'Criou design system utilizado em toda a empresa',
-                                'Melhorou métricas de UX em 35%',
-                                'Implementou testes automatizados frontend'
-                            ]
-                        ]
+                        
                     ];
                     @endphp
 

@@ -50,21 +50,7 @@
                     'technologies' => ['Laravel', 'WooCommerce', 'Stripe', 'PayPal', 'Mercado Pago'],
                     'price_range' => 'A partir de R$ 5.000'
                 ],
-                [
-                    'icon' => 'fas fa-mobile-alt',
-                    'title' => 'Aplicações Mobile',
-                    'description' => 'Desenvolvimento de aplicativos mobile híbridos e Progressive Web Apps.',
-                    'features' => [
-                        'Apps híbridos (iOS/Android)',
-                        'Progressive Web Apps (PWA)',
-                        'Interface nativa',
-                        'Push notifications',
-                        'Offline functionality',
-                        'App Store deployment'
-                    ],
-                    'technologies' => ['React Native', 'PWA', 'Firebase', 'Expo'],
-                    'price_range' => 'A partir de R$ 8.000'
-                ],
+                
                 [
                     'icon' => 'fas fa-server',
                     'title' => 'APIs & Backend',

@@ -134,14 +134,15 @@
                     @php
                     $technologies = [
                         ['name' => 'Laravel', 'icon' => 'fab fa-laravel', 'color' => 'text-red-500'],
-                        ['name' => 'React', 'icon' => 'fab fa-react', 'color' => 'text-blue-500'],
                         ['name' => 'Vue.js', 'icon' => 'fab fa-vuejs', 'color' => 'text-green-500'],
+                        ['name' => 'Inertia.js', 'icon' => 'fas fa-random', 'color' => 'text-green-500'],
+                        ['name' => 'React', 'icon' => 'fab fa-react', 'color' => 'text-blue-500'],
                         ['name' => 'Node.js', 'icon' => 'fab fa-node-js', 'color' => 'text-green-600'],
                         ['name' => 'PHP', 'icon' => 'fab fa-php', 'color' => 'text-purple-500'],
                         ['name' => 'JavaScript', 'icon' => 'fab fa-js', 'color' => 'text-yellow-500'],
                         ['name' => 'MySQL', 'icon' => 'fas fa-database', 'color' => 'text-blue-600'],
                         ['name' => 'Git', 'icon' => 'fab fa-git-alt', 'color' => 'text-orange-500'],
-                        ['name' => 'Docker', 'icon' => 'fab fa-docker', 'color' => 'text-blue-400']
+                        
                     ];
                     @endphp
                     
