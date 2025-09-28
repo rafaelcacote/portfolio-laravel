@@ -29,11 +29,47 @@ class ContactController extends Controller
             'project_type' => 'nullable|in:website,app,ecommerce,system,other',
             'budget_range' => 'nullable|string|max:50',
             'timeline' => 'nullable|string|max:100',
+            'g-recaptcha-response' => 'required',
         ]);
 
         if ($validator->fails()) {
             return back()
                 ->withErrors($validator)
+                ->withInput();
+        }
+
+        // Validar reCAPTCHA
+        $recaptchaResponse = $request->input('g-recaptcha-response');
+        $recaptchaSecret = config('services.recaptcha.secret_key');
+        
+        if (!$recaptchaResponse) {
+            return back()
+                ->withErrors(['g-recaptcha-response' => 'Por favor, confirme que você não é um robô.'])
+                ->withInput();
+        }
+
+        $recaptchaUrl = 'https://www.google.com/recaptcha/api/siteverify';
+        $recaptchaData = [
+            'secret' => $recaptchaSecret,
+            'response' => $recaptchaResponse,
+            'remoteip' => $request->ip(),
+        ];
+
+        $options = [
+            'http' => [
+                'header' => "Content-type: application/x-www-form-urlencoded\r\n",
+                'method' => 'POST',
+                'content' => http_build_query($recaptchaData),
+            ],
+        ];
+
+        $context = stream_context_create($options);
+        $result = file_get_contents($recaptchaUrl, false, $context);
+        $recaptchaResult = json_decode($result, true);
+
+        if (!$recaptchaResult['success']) {
+            return back()
+                ->withErrors(['g-recaptcha-response' => 'Falha na verificação do reCAPTCHA. Tente novamente.'])
                 ->withInput();
         }
 

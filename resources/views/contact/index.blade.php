@@ -195,6 +195,14 @@
                         @enderror
                     </div>
                     
+                    <!-- reCAPTCHA -->
+                    <div class="flex justify-center">
+                        <div class="g-recaptcha" data-sitekey="{{ config('services.recaptcha.site_key') }}"></div>
+                    </div>
+                    @error('g-recaptcha-response')
+                        <p class="text-red-500 text-sm text-center mt-2">{{ $message }}</p>
+                    @enderror
+                    
                     <!-- Submit Button -->
                     <div>
                         <button type="submit" class="btn-primary w-full">
